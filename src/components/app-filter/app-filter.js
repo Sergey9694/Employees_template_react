@@ -1,4 +1,4 @@
-
+import './app-filter.css';
 
 const AppFilter = () => {
     return (
@@ -9,7 +9,7 @@ const AppFilter = () => {
                     Все сотрудники
             </button>
             <button 
-                className="btn btn-outline-"
+                className="btn btn-outline-light"
                 type="button">
                     Сотрудники на повышение
             </button>
