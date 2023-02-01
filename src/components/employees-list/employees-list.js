@@ -1,12 +1,15 @@
 import EmployeesListItem from '../employees-list-item/employees-list-item';
 import './employees-list.css';
 
-const EmployeesList = ({data}) => { //в компонент приходит data
+const EmployeesList = ({data, onDelete}) => { //в компонент приходит data
 
     const elements = data.map(item => { // перебираем эл-ты массива
         const {id, ...itemProps} = item; // деструктуризация по остаточному принципу (вытаскиваем id из item, ...itemProps -все остальные свойства)
         return (
-            <EmployeesListItem key={id} {...itemProps}/> //разложили св-ва через spread
+            <EmployeesListItem 
+                key={id}
+                {...itemProps} //разложили св-ва через spread
+                onDelete={() => onDelete(id)} /> 
         )
     })
 
