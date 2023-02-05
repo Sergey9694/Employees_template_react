@@ -1,7 +1,7 @@
 import EmployeesListItem from '../employees-list-item/employees-list-item';
 import './employees-list.css';
 
-const EmployeesList = ({data, onDelete}) => { //в компонент приходит data
+const EmployeesList = ({data, onDelete, onToggleProp}) => { // вытаскиваем из пропсов
 
     const elements = data.map(item => { // перебираем эл-ты массива
         const {id, ...itemProps} = item; // деструктуризация по остаточному принципу (вытаскиваем id из item, ...itemProps -все остальные свойства)
@@ -9,7 +9,8 @@ const EmployeesList = ({data, onDelete}) => { //в компонент прихо
             <EmployeesListItem 
                 key={id}
                 {...itemProps} //разложили св-ва через spread
-                onDelete={() => onDelete(id)} /> 
+                onDelete={() => onDelete(id)} 
+                onToggleProp ={(e) => onToggleProp(id, e.currentTarget.getAttribute('data-toggle'))}/> 
         )
     })
 

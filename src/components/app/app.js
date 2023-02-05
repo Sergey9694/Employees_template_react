@@ -13,9 +13,9 @@ class App extends Component {
         super(props)
         this.state = {
             data: [     // Как будто данные с сервера
-                {name: 'John C.' , salary: 800, increase: false, id: 1},
-                {name: 'Alex M.' , salary: 3000, increase: true, id: 2},
-                {name: 'Carl W.' , salary: 5000, increase: false, id: 3},
+                {name: 'John C.' , salary: 800, increase: false, rise: true, id: 1},
+                {name: 'Alex M.' , salary: 3000, increase: true, rise: false, id: 2},
+                {name: 'Carl W.' , salary: 5000, increase: false, rise: false, id: 3}
             ]
         }
         this.maxId = 4;
@@ -34,6 +34,7 @@ class App extends Component {
             name,
             salary,
             increase: false,
+            rise: false,
             id: this.maxId++
         }
         this.setState(({data}) => {
@@ -42,13 +43,38 @@ class App extends Component {
                 data: newArr
             }
         })
+    }
+    // Метод изменяет параметр increase на противоположный у определенного элемента
+    onToggleProp = (id, prop) => {
+        // this.setState(({data}) => {
+        //     const index = data.findIndex(element => element.id === id);
 
+        //     const oldObj = data[index];
+        //     const newObj = {...oldObj, increase: !oldObj.increase};
+        //     const newArr = [...data.slice(0, index), newObj, ...data.slice(index + 1)]
+            
+        //     return {
+        //         data: newArr
+        //     }
+        // })
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if(item.id === id) {
+                    return {...item, [prop]: !item[prop]}
+                }
+                return item;
+            }) 
+        }))
     }
 
+
     render() {
+        const employees = this.state.data.length; // количество сотрудн в массиве
+        const increased = this.state.data.filter(item => item.increase).length; // вернули отфильтрованные объекты по позиции icrease: true и кол-во сотрудн по позиции 
+        
         return (
             <div className="app">  
-                <AppInfo/>
+                <AppInfo employees={employees} increased={increased}/>
 
                 <div className="search-panel">
                     <SearchPanel/>
@@ -57,7 +83,8 @@ class App extends Component {
                 
                 <EmployeesList 
                     data={this.state.data}
-                    onDelete={this.deleteItem}/> 
+                    onDelete={this.deleteItem}
+                    onToggleProp={this.onToggleProp}/> 
                 <EmployeesAddForm
                     onAddEmployees={this.addItem}/>
             </div>
